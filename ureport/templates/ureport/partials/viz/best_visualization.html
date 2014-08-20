@@ -4,7 +4,7 @@
 {% trans "CURRENT POLL" %}
 </span>
 <span class="poll-date">
- - {{ poll.start_date|date:"d/M/Y" }} : 
+ - {{ poll.start_date|date:"d/M/Y" }} :
 </span>
 <span class="poll-question">
 {{ poll.question }}
@@ -12,7 +12,7 @@
 
 
 
-    
+
 </span>
      {% load humanize %}
     <span style="color:#00638A;font-size:16px;">{{ poll.responses.count|intcomma }}  {% trans "Responses out of" %} {{ poll.contacts.count|intcomma }} {% trans "Participants" %} ({{ rate }}%)</span>
@@ -34,9 +34,9 @@
                 {% include "/ureport/partials/viz/choropleth.html" %}
             {% else %}
                 {% include "/ureport/partials/viz/multichoice_choropleth.html" %}
-                {% comment %}
+                <!--{% comment %}
 	                {% include "/ureport/partials/viz/map.html" %}
-	            {% endcomment %}
+	            {% endcomment %}-->
             {% endif %}
             {% include "/ureport/partials/viz/piechart.html" %}
         </div>

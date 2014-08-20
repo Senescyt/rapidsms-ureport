@@ -53,9 +53,12 @@
                 <ul>
                 <li><a href="/">{% trans "HOME" %}</a></li>
                 <li><a href="/pollresults">{% trans "POLL RESULTS" %}</a></li>
-                <li><a href="/about_ureport/">{% trans "ABOUT UREPORT" %}</a></li>
-                <li><a href="/join/">{% trans "HOW TO JOIN" %}</a></li>
-                <li><a href="{% url pulse %}">{% trans "NATIONAL PULSE" %}</a> </li>
+                <li><a href="/polls">{% trans "POLL ADMIN" %}</a></li>
+                <li><a href="/admin">{% trans "ADMINISTRATION" %}</a></li>
+                <li><a href="/router/console">{% trans "MESSAGE CONSOLE" %}</a></li>
+                <!--li><a href="/about_ureport/">{% trans "ABOUT UREPORT" %}</a></li-->
+                <!--li><a href="/join/">{% trans "HOW TO JOIN" %}</a></li-->
+                <!--li><a href="{% url pulse %}">{% trans "NATIONAL PULSE" %}</a> </li-->
                 </ul>
             </div>
 
@@ -63,14 +66,14 @@
 
 
             <div class="intro">
-                <p>
+                <!--p>
                 {% captureas citizens_trans %}{% trans "Ugandans" %}{% endcaptureas %}
 		    {% blocktrans %}Ureport is a free SMS-based system that allows young {{ citizens_trans }} to speak out on what's happening in communities across the country, and work together with other community leaders for positive change.{% endblocktrans %}
-                </p>
+                </p-->
             </div>
-            <div class="join">
+            <!--div class="join">
                 <a href="/signup"> <img src="{{ MEDIA_URL }}ureport/images/join_us.png"/></a>
-            </div>
+            </div-->
                 {% if quote %}
                     <div class="quotebox">
                         <div class="quote_head">
@@ -94,8 +97,8 @@
 
 	    <div class="footer">
 	       <div class="sponsors">
-	       {% trans "Supported by" %}:
-		   {% include 'ureport/footer_links.html' %}
+	       <!--{% trans "Supported by " %}:
+		   {% include 'ureport/footer_links.html' %}-->
 	       </div>
 	       <div class="footerlinks">
 	           <div class="nav-bottom">
@@ -118,8 +121,8 @@
 	                {% endif %}
                 </ul>
 	           </div>
-	           <p> 
-	          {% trans "&copy; 2010 -" %}  {% now "Y" %} {% trans "UNICEF et al." %}  
+	           <p>
+	          {% trans "&copy; 2010 -" %}  {% now "Y" %} {% trans "UNICEF et al." %}
 	           </p>
 	        </div>
 	    </div>

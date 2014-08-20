@@ -77,19 +77,22 @@
 
     <div class="footer">
         <div class="sponsors">
-            {% trans "Supported by" %}:
-            {% include 'ureport/footer_links.html' %}
+           <!-- {% trans "Supported by" %}:
+            {% include 'ureport/footer_links.html' %} -->
         </div>
         <div class="footerlinks">
             <div class="nav-bottom">
                 <ul>
                     <li class="first"><a href="/">{% trans "HOME" %}</a></li>
-                    <li><a href="/#poll_results">{% trans "POLL RESULTS" %}</a></li>
-                    <li><a href="/about_ureport">{% trans "ABOUT UREPORT" %}</a></li>
-                    <li><a href="/join/">{% trans "HOW TO JOIN" %}</a></li>
+                    <li><a href="/pollresults">{% trans "POLL RESULTS" %}</a></li>
+
+                    <!--li><a href="/about_ureport">{% trans "ABOUT UREPORT" %}</a></li-->
+                    <!--li><a href="/join/">{% trans "HOW TO JOIN" %}</a></li-->
                     <!-- <li><a href="#">SITE MAP</a></li>
                     <li><a href="#">CONTACT US</a></li> -->
                     {% if user.is_authenticated %}
+                   			<li><a href="/admin">{% trans "ADMINISTRATION" %}</a></li>
+                    		<li><a href="/router/console">{% trans "MESSAGE CONSOLE" %}</a></li>
                         <li><a href="{% url ureport-polls  user.pk %}">{% trans "POLL ADMIN" %}</a></li>
                         <li><a href="{% url messagelog %}">{% trans "MESSAGE LOG" %}</a></li>
                         <li><a href="{% url ureport-contact %}">{% trans "UREPORTERS" %}</a></li>
