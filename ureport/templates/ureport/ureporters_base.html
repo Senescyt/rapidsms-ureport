@@ -22,9 +22,83 @@
 $(function() {
 $("#id_startdate").datepicker({ dateFormat: 'dd/mm/yy' ,changeYear: true ,changeMonth: true,minDate: new Date(2009, 1 - 1, 1) });
 $("#id_enddate").datepicker({ dateFormat: 'dd/mm/yy' ,changeYear: true ,changeMonth: true,minDate: new Date(2009, 1 - 1, 1) });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 </script>
-   
+
 {% endblock %}
 
 
@@ -38,23 +112,23 @@ $("#id_enddate").datepicker({ dateFormat: 'dd/mm/yy' ,changeYear: true ,changeMo
                 <tr>  <td>{% trans "Search Ureporters" %} :</td> <td>{{ filter_forms.0.searchx }}</td>  <td>{% trans "Filter By Group" %} :</td> <td>{{ filter_forms.4.visible_fields.0 }}</td>        </tr>
                 <tr>  <td>{% trans "Filter By Gender" %} :</td> <td>{{ filter_forms.1.gender }}</td> <td>{% trans "Filter By District" %} :</td> <td>{{ filter_forms.3.visible_fields.0}}</td>         </tr>
                 <tr>  <td>{% trans "Filter By Age" %} :</td> <td>{{ filter_forms.2.flag }}</td> <td>{{ filter_forms.2.age }}</td>          </tr>
-      
+
                 <tr><td></td><td></td>
                     <td>
                     <a href="javascript:void(0)" onclick="filter(this)" class="btn-primary btn btn-large">{% trans "Update" %}</a>
-                
+
                    </td>
                     <td>
 
                     <a href="./" class="btn-primary btn btn-large">{% trans "Clear" %}</a>
-            
+
                     </td>
                 </tr>
             </table>
 
 
 
-           
+
             </div>
             <br/>
 

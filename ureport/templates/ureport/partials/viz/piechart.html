@@ -1,15 +1,19 @@
 {% load i18n %}
+<div class="buttons">
+    <a href="/exportresults/{{ poll.pk }}" style="float:right">
+      {% trans "Export Results to Excel" %}
+    </a>
+</div>
 <div style="width:100%;height:400px;" id="pie_{{ poll.pk }}">
 </div>
-
-<div id="filter_by_gender">
+<!--div id="filter_by_gender">
     <input type="radio" name="gender_button" value="m" onclick="get_gender_stats();"/> {% trans "Male" %} <br>
     <input type="radio" name="gender_button" value="f" onclick="get_gender_stats();"/> {% trans "Female" %} <br>
-</div>
-<div style="min-width: 200px; height: 400px; margin: 0 auto" id="genderstats_{{ poll.pk }}">
-</div>
+</div-->
+<!--div style="min-width: 200px; height: 400px; margin: 0 auto" id="genderstats_{{ poll.pk }}">
+</div-->
 
-<div style="padding-top: 10px;" id="filter_by_age">
+<!--div style="padding-top: 10px;" id="filter_by_age">
     <label for="lower">{% trans "Start Age" %}</label>
     <input type="text" id="lower"/>
     <br>
@@ -18,9 +22,9 @@
     <br>
     <input type="button" value="{% trans "Filter By Age" %}" onclick="get_age_stats();"/>
 
-</div>
-<div style="min-width: 200px; height: 400px; margin: 0 auto" id="agestats_{{ poll.pk }}">
-</div>
+</div-->
+<!--div style="min-width: 200px; height: 400px; margin: 0 auto" id="agestats_{{ poll.pk }}">
+</div-->
 
 
 <script src="{{MEDIA_URL}}ureport/javascripts/highcharts.js" type="text/javascript"></script>

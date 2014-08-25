@@ -2,7 +2,7 @@
 from django.conf.urls.defaults import patterns, url, include
 from ureport.views import poll_dashboard, ureporters, editReporter, deleteReporter, ureport_polls, script_polls, \
     messages, mass_messages, quit_messages, autoreg_messages, poll_messages, unsolicitized_messages, flagged_messages, \
-    view_flagged_with, create_flags, delete_flag, view_responses, ureport_content, message_feed, poll_summary, \
+    view_flagged_with, create_flags, delete_flag, view_responses, ureport_content, message_feed, poll_summary, export_results_excel,  \
     best_visualization, tag_cloud, add_drop_word, delete_drop_word, show_ignored_tags, histogram, show_timeseries, \
     get_all_contacts, bulk_upload_contacts, download_contacts_template, clickatell_wrapper, signup, ureporter_profile, \
     new_poll, mp_dashboard, ussd_manager, blacklist, delete, view_poll, poll_status, edit_category, delete_category, \
@@ -31,6 +31,7 @@ from ureport.models import Ureporter
 from ureport.utils import get_contacts
 from rapidsms.backends.vumi.views import VumiBackendView
 from ureport.views.api.registration_steps import RegistrationStepsView
+from django.db import connection
 
 message_resource = MessageResource()
 
@@ -100,6 +101,7 @@ urlpatterns = patterns('',
                        url(r'^pollresults/(?P<poll>\d+)/$', poll_summary, name="polls-summary"),
                        url(r'^bestviz/$', best_visualization, name="best-viz"),
                        url(r'^bestviz/(?P<poll_id>\d+)/$', best_visualization, name="best-viz"),
+                       url(r'^exportresults/(?P<poll_id>\d+)/$', export_results_excel, name="export-results-excel"),
 
                        # tag cloud views
                        url(r'^tag_cloud/$', tag_cloud, name="tagcloud"),
@@ -214,5 +216,6 @@ urlpatterns = patterns('',
                        url(r"^api/v1/ureporters/(?P<backend>\w+)/(?P<user_address>\+?\w+)/reports/$",
                            SubmitReportApiView.as_view(), name="submit_report_api"),
                        url(r"^api/v1/ureporters/(?P<backend>\w+)/(?P<user_address>\+?\w+)/poll/(?P<poll_id>\d+)/summary$", PollSummary.as_view()),
+
 
 )

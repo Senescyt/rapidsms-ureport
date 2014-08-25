@@ -30,7 +30,7 @@ from ureport.models import UPoll, ExportedPoll
 import logging, datetime
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext
-
+from django.db import connection
 
 log = logging.getLogger(__name__)
 
@@ -545,3 +545,59 @@ def start_poll_export(request, poll_id):
     else:
         tasks.export_poll.delay(poll.pk, request.get_host(), username=request.user.username)
     return HttpResponse(status=200)
+
+
+#Method to export poll to Excel
+@login_required
+@never_cache
+def export_results_excel(request, poll_id):
+    import xlwt
+
+    response = HttpResponse(mimetype='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=reporte.xls'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet("Resultados")
+
+    row_num = 0
+
+    columns = [(u"Universidad", 10000), (u"Pregunta", 10000), (u"Respuesta", 4000), (u"Sumatoria", 4000)]
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+
+    for col_num in xrange(len(columns)):
+        ws.write(row_num, col_num, columns[col_num][0], font_style)
+        ws.col(col_num).width = columns[col_num][1]
+
+    font_style = xlwt.XFStyle()
+    font_style.alignment.wrap = 1
+
+    sql = '''select 		uc.group as universidad,
+			p.question as pregunta,
+			upper(m.text) as respuesta,
+			count(*) as sumatoria
+from 		poll_poll p
+inner join	poll_poll_contacts pc on p.id = pc.poll_id
+inner join	poll_response pr on pr.poll_id = p.id and pr.contact_id = pc.contact_id
+inner join	rapidsms_httprouter_message m on pr.message_id = m.id
+inner join	ureport_contact uc on pc.contact_id = uc.id
+where p.id=%s
+group by		uc.group, p.question, upper(m.text)'''
+
+    if connection.connection is None:
+        cursor = connection.cursor()
+    cursor = connection.connection.cursor(name='consulta')
+    params = (poll_id,)
+    cursor.execute(sql,params)
+
+    rows = cursor.fetchall()
+
+    for obj in rows:
+
+        row = [rows[row_num][0], rows[row_num][1], rows[row_num][2], rows[row_num][3]]
+        for col_num in xrange(len(row)):
+            ws.write(row_num + 1, col_num, row[col_num], font_style)
+        row_num += 1
+
+    wb.save(response)
+
+    return response
