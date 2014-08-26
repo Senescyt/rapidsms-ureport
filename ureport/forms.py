@@ -857,3 +857,7 @@ class ExReportForm(forms.Form):
 
     def extract(self, request):
         tasks.extract_gen_reports.delay(self.cleaned_data, username=request.user.username, host=request.get_host())
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

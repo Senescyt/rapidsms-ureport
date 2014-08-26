@@ -1,5 +1,6 @@
 from datetime import date
 from time import strftime
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
@@ -9,7 +10,10 @@ from django.views.decorators.cache import never_cache
 from ureport.spreadsheet_utils import get_excel_dump_report_for_poll, \
     get_per_district_excel_report_for_yes_no_polls
 from poll.models import Poll
-from ureport.forms import UploadContactsForm, AssignGroupForm
+from ureport.forms import UploadContactsForm, AssignGroupForm, UploadFileForm
+from ureport.models.csv_models import ContactCSvModel
+from rapidsms.models import Contact, Connection, Backend
+from django.contrib.auth.models import Group
 
 
 @login_required
@@ -44,16 +48,39 @@ def generate_per_district_report(request, poll_id):
 @login_required
 @never_cache
 def upload_users(request):
-    form = UploadContactsForm()
-    if request.method == 'POST':
-        form = UploadContactsForm(request.POST, request.FILES)
+    # if request.method == 'POST':
+    #     form = UploadContactsForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         upload = form.save(commit=False)
+    #         upload.user = request.user
+    #         upload.save()
+    #         UploadContactsForm.process(upload)
+    #         return HttpResponseRedirect(reverse('upload_users'))
+    # return render_to_response('ureport/upload_users.html', locals(), context_instance=RequestContext(request))
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            upload = form.save(commit=False)
-            upload.user = request.user
-            upload.save()
-            UploadContactsForm.process(upload)
-            return HttpResponseRedirect(reverse('upload_users'))
-    return render_to_response('ureport/upload_users.html', locals(), context_instance=RequestContext(request))
+            uploaded_file = request.FILES['file']
+            country_csv_list = ContactCSvModel.import_data(uploaded_file)
+            country_csv_list.pop(0)
+            for row in country_csv_list:
+                # Contact
+                contact = Contact(name=row.name)
+                contact.language = 'es'
+                contact.occupation = 'ESTUDIANTE'
+                contact.save()
+                contact.groups.add(Group.objects.get(name=row.college))
+                #Connection
+                connection = Connection()
+                connection.backend = Backend.objects.get(name='console')
+                connection.identity = row.cellphone
+                connection.contact = contact
+                connection.save()
+
+            return HttpResponseRedirect('/upload-contacts/')
+    else:
+        form = UploadFileForm()
+    return render(request, 'ureport/upload_users.html', {'form': form})
 
 
 @login_required
