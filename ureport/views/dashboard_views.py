@@ -545,7 +545,10 @@ def home(request):
         print "Returning cached page"
         rendered = cache.get('cached_home')
     else:
-        time_of_last_in_message = Message.objects.filter(direction='I').order_by('-date')[0].date
+        time_of_last_in_message = ""
+        messages = Message.objects.filter(direction='I').order_by('-date')
+        if len(messages) > 0:
+            time_of_last_in_message = messages[0].date
         rendered = render_to_string('ureport/home.html', {'timelastmsg': time_of_last_in_message},
                                     context_instance=RequestContext(request))
         cache.set('cached_home', rendered)

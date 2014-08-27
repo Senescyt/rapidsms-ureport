@@ -61,22 +61,8 @@ def upload_users(request):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = request.FILES['file']
-            country_csv_list = ContactCSvModel.import_data(uploaded_file)
-            country_csv_list.pop(0)
-            for row in country_csv_list:
-                # Contact
-                contact = Contact(name=row.name)
-                contact.language = 'es'
-                contact.occupation = 'ESTUDIANTE'
-                contact.save()
-                contact.groups.add(Group.objects.get(name=row.college))
-                #Connection
-                connection = Connection()
-                connection.backend = Backend.objects.get(name='console')
-                connection.identity = row.cellphone
-                connection.contact = contact
-                connection.save()
-
+            country_csv_list = create_list_from(uploaded_file)
+            insert_contacts_from(country_csv_list)
             return HttpResponseRedirect('/upload-contacts/')
     else:
         form = UploadFileForm()
@@ -93,3 +79,32 @@ def assign_group(request):
             form.process(path, request.user.username)
             return HttpResponseRedirect(reverse("assign_group"))
     return render_to_response('ureport/upload_users.html', locals(), context_instance=RequestContext(request))
+
+
+def create_list_from(uploaded_file):
+    country_csv_list = ContactCSvModel.import_data(uploaded_file)
+    country_csv_list.pop(0)
+    return country_csv_list
+
+
+def insert_contacts_from(country_csv_list):
+    for row in country_csv_list:
+        contact = create_contact_from(row)
+        create_connection_from(row, contact)
+
+
+def create_contact_from(row):
+    contact = Contact(name=row.name)
+    contact.language = 'es'
+    contact.occupation = 'ESTUDIANTE'
+    contact.save()
+    contact.groups.add(Group.objects.get(name=row.college))
+    return contact
+
+
+def create_connection_from(row, contact):
+    connection = Connection()
+    connection.backend = Backend.objects.get(name='console')
+    connection.identity = row.cellphone
+    connection.contact = contact
+    connection.save()
