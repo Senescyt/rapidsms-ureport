@@ -89,16 +89,20 @@ def create_list_from(uploaded_file):
 
 def insert_contacts_from(country_csv_list):
     for row in country_csv_list:
-        contact = create_contact_from(row)
+        try:
+            group = Group.objects.get(name=row.college)
+        except:
+            return HttpResponseRedirect('/upload-contacts/')
+        contact = create_contact_from(row, group)
         create_connection_from(row, contact)
 
 
-def create_contact_from(row):
+def create_contact_from(row, group):
     contact = Contact(name=row.name)
     contact.language = 'es'
     contact.occupation = 'ESTUDIANTE'
     contact.save()
-    contact.groups.add(Group.objects.get(name=row.college))
+    contact.groups.add(group)
     return contact
 
 

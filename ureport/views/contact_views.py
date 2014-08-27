@@ -66,16 +66,9 @@ def ureporter_profile(request, connection_pk):
                         / float(Poll.objects.filter(contacts=contact).distinct().count())
     except (ZeroDivisionError, ValueError):
         response_rate = None
-    gr_poll = Poll.objects.get(pk=121)
     how_did_u_hear = None
-    if session:
-        try:
-            how_did_u_hear = \
-                session[0].responses.filter(response__poll=gr_poll)[0].response.message.text
-        except (ScriptResponse.DoesNotExist, IndexError):
-            how_did_u_hear = 'N/A'
+
     if request.GET.get('download', None):
-        data = []
         data = messages.values_list('text', 'direction', 'date',
                                     'connection__contact__reporting_location__name').iterator()
         headers = ['Message', 'Direction', 'Date', 'District']
