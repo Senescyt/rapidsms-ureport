@@ -326,6 +326,7 @@ div.why-placeholder span {
 	background: url('../images/scroller_top.png') no-repeat;
 	height: 35px;
 	width: 720px;
+    margin-top: 20px;
 }
 
 .scrolltop span {
