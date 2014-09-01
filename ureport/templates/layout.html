@@ -93,6 +93,7 @@
                     {% if user.is_authenticated %}
                    			<li><a href="/admin">{% trans "ADMINISTRATION" %}</a></li>
                     		<li><a href="/router/console">{% trans "MESSAGE CONSOLE" %}</a></li>
+                            <li><a href="/upload-contacts">{% trans "UPLOAD CONTACTS" %}</a> </li>
                         <li><a href="{% url ureport-polls  user.pk %}">{% trans "POLL ADMIN" %}</a></li>
                         <li><a href="{% url messagelog %}">{% trans "MESSAGE LOG" %}</a></li>
                         <li><a href="{% url ureport-contact %}">{% trans "UREPORTERS" %}</a></li>
