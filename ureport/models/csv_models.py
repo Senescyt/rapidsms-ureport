@@ -7,6 +7,7 @@ class ContactCSvModel(CsvModel):
     college = CharField()
     name = CharField()
     cellphone = CharField()
+    backend = CharField()
 
     class Meta:
         delimiter = ";"

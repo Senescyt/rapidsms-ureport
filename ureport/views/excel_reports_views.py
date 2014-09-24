@@ -94,7 +94,8 @@ def insert_contacts_from(country_csv_list):
         except:
             return HttpResponseRedirect('/upload-contacts/')
         contact = create_contact_from(row, group)
-        create_connection_from(row, contact)
+        backend = row.backend
+        create_connection_from(row, contact, backend)
 
 
 def create_contact_from(row, group):
@@ -106,9 +107,15 @@ def create_contact_from(row, group):
     return contact
 
 
-def create_connection_from(row, contact):
+def create_connection_from(row, contact, backendName):
     connection = Connection()
-    connection.backend = Backend.objects.get(name='console')
+    try:
+        backend = Backend.objects.get(name=backendName)
+    except:
+        backend = Backend()
+        backend.name = backendName
+        backend.save()
+    connection.backend = backend
     connection.identity = row.cellphone
     connection.contact = contact
     connection.save()
