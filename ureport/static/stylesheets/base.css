@@ -30,12 +30,12 @@ a {
 
 #span_info {
    border-bottom: 1px solid #BBD8E7;
-    float: right;
-    margin-right: 10px;
-    margin-top: 10px;
-    padding-bottom: 3px;
-    width: 120px;
-
+float: right;
+margin-right: 10px;
+margin-top: 30px;
+padding-bottom: 3px;
+width: 120px;
+text-align: right;
 
 }
 .signup
@@ -48,7 +48,7 @@ a {
 
 #span_total {
     color: #ffffff;
-    font-size: 32px;
+    font-size: 22px;
     font-weight: bold;
 }
 
